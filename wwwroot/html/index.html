@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+
+</head>
+<body>
+    <div></div>
+
+
+    <script>
+        async function GetWeather() {
+            const response = await fetch("/weatherforecast", {
+                method: "GET",
+                headers: { "Accept" : "application/json" }
+            });
+            if (response.ok === true) {
+                const users = await response.json();
+                let rows = document.querySelector("div");
+                users.forEach(user => {
+                    console.log(user);
+                    
+                    rows.append(row(user));
+                });
+            }
+        }
+
+        function row(user) {
+            let row = document.createElement("div");
+
+            let date = document.createElement("p");
+            date.innerText = user.date;
+
+            let summary = document.createElement("p");
+            summary.innerText = user.summary;
+
+            let tc = document.createElement("p");
+            tc.innerText = user.temperatureC;
+
+            let tf = document.createElement("p");
+            tf.innerText = user.temperatureF;
+
+            row.append(date, summary, tc, tf);
+
+            return row;
+        }
+
+        GetWeather()
+    </script>
+</body>
+</html>
