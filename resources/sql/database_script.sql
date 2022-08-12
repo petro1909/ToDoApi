@@ -1,0 +1,55 @@
+CREATE TABLE Users
+(
+	Id SERIAL,
+	Name CHARACTER VARYING(30) NOT NULL,
+	Password CHARACTER VARYING(30) NOT NULL,
+	PRIMARY KEY(Id),
+	CONSTRAINT user_name_unique UNIQUE(Name)
+);
+
+CREATE TABLE Projects
+(
+	Id SERIAL,
+	OwnerId INTEGER
+	Name CHARACTER VARYING(30),
+	IsDone BOOLEAN,
+	PRIMARY KEY(Id),
+	FOREIGN KEY (OwnerId) REFERENCES Users (Id)
+);
+
+CREATE TABLE UserProjectRights
+(
+	Id SERIAL,
+	Name CHARACTER VARYING(30),
+	PRIMARY KEY(Id)
+);
+
+CREATE TABLE UsersProjects
+(
+	UserId INTEGER,
+	ProjectId INTEGER,
+	RightId INTEGER,
+	PRIMARY KEY (UserId, ProjectId),
+	FOREIGN KEY (UserId) REFERENCES Users (Id),
+	FOREIGN KEY (ProjectId) REFERENCES Projects (Id),
+	FOREIGN KEY (RightId) REFERENCES UserProjectRights (Id)
+);
+
+CREATE TABLE Tasks
+(
+	Id SERIAL,
+	UserId INTEGER,
+	ProjectId INTEGER,
+	TaskId INTEGER
+	Description TEXT,
+	IsDone BOOLEAN
+	CreationDate TIMESTAMP,
+	CompletionDate TIMESTAMP,
+	PRIMARY KEY (Id),
+	FOREIGN KEY (UserId) REFERENCES Users (Id),
+	FOREIGN KEY (ProjectId) REFERENCES Projects (Id),
+	FOREIGN KEY (TaskId) REFERENCES Tasks (Id)
+)
+
+
+
